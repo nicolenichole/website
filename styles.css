@@ -615,8 +615,11 @@ h3 {
   padding-left: 1rem;
   border-left: 2px solid rgba(58, 140, 95, 0.2);
   margin: 1rem 0;
-  space-y: 0.5rem;
+  display: flex;         /* or display: grid; */
+  flex-direction: column; /* for vertical spacing */
+  gap: 0.5rem;
 }
+
 
 .info-list p {
   margin-bottom: 0.5rem;
