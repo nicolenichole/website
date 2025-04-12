@@ -22,6 +22,14 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       })
     })
+
+    // Initialize accordions to be closed
+    accordionTriggers.forEach((trigger) => {
+      trigger.setAttribute("aria-expanded", "false");
+      // Make sure no accordion starts with the active class
+      trigger.nextElementSibling.classList.remove("active");
+    });
+
     // Function to adjust the timeline line height
   function adjustTimelineLine() {
     const timelineContainer = document.querySelector('.timeline-container');
