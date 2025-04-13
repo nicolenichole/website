@@ -78,26 +78,28 @@
 	<body>
         <div id="dialogueBox" class="dialogue-box">
             <div class="dialogue-header">
-                <span id="characterName" class="character-name">Steve</span>
+                <span id="characterName" class="character-name">Nicole</span>
             </div>
             <div class="dialogue-content">
-                <div id="dialogueText" class="dialogue-text">Welcome to my Minecraft Base! Click on the white sign for more information.</div>
-                <div class="continue-indicator">▼ Click to continue</div>
+                <div id="dialogueText" class="dialogue-text">Minecraft is a trademark of Mojang Studios. This fan-made portfolio is not affiliated with or endorsed by Mojang.</div>
+                <div id="continueIndicator" class="continue-indicator">▼ Click to continue</div>
             </div>
         </div>
 
         <script>
             // Dialogue system
             const dialogues = [
-                { name: "Steve", text: "Welcome to my Minecraft Base! Click on the white sign for more information." },
-                { name: "Steve", text: "I've built this place with lots of cool features. Feel free to explore!" },
-                { name: "Steve", text: "Don't forget to check out the underground area too. There are some hidden treasures." }
+                { name: "Nicole", text: "Minecraft is a trademark of Mojang Studios. This fan-made portfolio is not affiliated with or endorsed by Mojang." },
+                { name: "Nicole", text: "Welcome to my Minecraft Base! Click on the white sign for more information." },
+                { name: "Nicole", text: "I've built this place with lots of cool features. Feel free to explore!" },
+                //{ name: "Nicole", text: "Don't forget to check out the upstairs area too. There are some hidden treasures." }
             ];
             
             let currentDialogueIndex = 0;
             const dialogueBox = document.getElementById('dialogueBox');
             const characterName = document.getElementById('characterName');
             const dialogueText = document.getElementById('dialogueText');
+            const continueIndicator = document.getElementById('continueIndicator');
             
             // Add click event listener to the dialogue box
             dialogueBox.addEventListener('click', advanceDialogue);
@@ -111,13 +113,19 @@
                     characterName.textContent = dialogues[currentDialogueIndex].name;
                     dialogueText.textContent = dialogues[currentDialogueIndex].text;
                 } else {
-                    // Close the dialogue box when all dialogues are shown
-                    dialogueBox.classList.add('hidden');
+                    // We've reached the end of dialogues
+                    // Hide the continue indicator
+                    continueIndicator.style.display = 'none';
                     
-                    // Optional: Reset dialogue index for next time
-                    currentDialogueIndex = -1;
+                    // Reset to the first dialogue (Mojang trademark message)
+                    dialogueText.textContent = dialogues[0].text;
+                    characterName.textContent = dialogues[0].name;
                     
-                    // You could add code here to trigger the next action in your game/website
+                    // Remove the click event listener since we're done with dialogues
+                    dialogueBox.removeEventListener('click', advanceDialogue);
+                    
+                    // Change cursor back to default since it's no longer clickable
+                    dialogueBox.style.cursor = 'default';
                 }
             }
         </script>
