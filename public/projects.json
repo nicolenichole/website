@@ -1,0 +1,138 @@
+[
+  {
+    "id": "tamagotchi",
+    "date": "2025-04",
+    "dateDisplay": "April 2025",
+    "title": "To do list Tamagotchi pet",
+    "description": "[In progress] This is a pet that can only be fed by doing a daily task. This little tool is designed to keep you in check!",
+    "longDescription": "I am still working on it but I have uploaded the draft. You can set a time in settings for the deadline. If you miss a day your pet dies.",
+    "image": "images/tama.png",
+    "imageAlt": "To do list tamagotchi pet application",
+    "technologies": [
+      { "name": "JavaScript", "color": "green" },
+      { "name": "HTML", "color": "blue" },
+      { "name": "CSS", "color": "brown" }
+    ],
+    "links": {
+      "code": "https://github.com/nicolenichole/todolist_pet"
+    },
+    "position": "right"
+  },
+  {
+    "id": "portfolio",
+    "date": "2025-04",
+    "dateDisplay": "April 2025",
+    "title": "Personal Portfolio Website",
+    "description": "[In Progress] A responsive portfolio website as a creative outlet and to showcase my projects.",
+    "longDescription": "This project showcases my skills and projects in a clean, modern interface. It features creative ideas intersecting with professionalism.",
+    "image": "images/website.png",
+    "imageAlt": "Personal Portfolio Website screenshot",
+    "technologies": [
+      { "name": "Three.js", "color": "green" },
+      { "name": "Node.js", "color": "blue" },
+      { "name": "HTML", "color": "brown" },
+      { "name": "Blender", "color": "pink" }
+    ],
+    "links": {
+      "code": "https://github.com/nicolenichole/website"
+    },
+    "position": "left"
+  },
+  {
+    "id": "font-changer",
+    "date": "2025-04",
+    "dateDisplay": "April 2025",
+    "title": "Font Changer for Dyslexia",
+    "description": "As someone who struggles with dyslexia, I know how frustrating it can be to read dense or cluttered text online. I first discovered the OpenDyslexic font while reading on my Kindle, and it made a huge difference in how easily I could process and enjoy written content. I wanted to bring that same experience to the web, so I created this extension to let myself — and others — read more comfortably on any website.",
+    "longDescription": "This Chrome extension allows users to change the font of text on any webpage. It includes several font options, including OpenDyslexic, a font designed to improve readability for people with dyslexia.",
+    "image": "images/font.png",
+    "imageAlt": "Font Changer for Dyslexia browser extension",
+    "technologies": [
+      { "name": "JavaScript", "color": "green" },
+      { "name": "HTML", "color": "blue" },
+      { "name": "CSS", "color": "brown" }
+    ],
+    "links": {
+      "code": "https://github.com/nicolenichole/font-changer-for-dyslexia"
+    },
+    "position": "right"
+  },
+  {
+    "id": "ieee-planner",
+    "date": "2025-02",
+    "dateDisplay": "February 2025 - Present",
+    "title": "IEEE Planner",
+    "description": "AI integrated degree planner and class scheduling website",
+    "longDescription": "This project reimagines paper.nu with smarter class and major planning. It helps students map out their schedules, track requirements, and avoid conflicts—all with real-time data. With features like smarter course suggestions, community insights, and potential AI-driven summaries, it makes academic planning easier and more informed.",
+    "image": null,
+    "imageAlt": null,
+    "technologies": [
+      { "name": "Go", "color": "green" },
+      { "name": "PostgreSQL", "color": "blue" },
+      { "name": "Next.js", "color": "brown" },
+      { "name": "TailwindCSS & ShadCN", "color": "pink" }
+    ],
+    "links": {
+      "code": "https://github.com/nynniaw12/ieee-planner"
+    },
+    "position": "left"
+  },
+  {
+    "id": "robotics",
+    "date": "2024-07",
+    "dateDisplay": "July 2024 - August 2024",
+    "title": "CATs Robotics Lab",
+    "description": "Programmed the AgileX Ranger",
+    "longDescription": "Integrated and programmed the AgileX Ranger, equipping it with a computer and color + depth camera for operational performance analysis to enable path-following functionality and obstacle detection.",
+    "image": "images/ranger.jpg",
+    "imageAlt": "CATs Robotics Lab AgileX Ranger robot",
+    "technologies": [
+      { "name": "C", "color": "green" },
+      { "name": "C++", "color": "blue" },
+      { "name": "OpenCV", "color": "brown" },
+      { "name": "ROS 2, Robot SDK", "color": "pink" }
+    ],
+    "links": {
+      "code": "https://github.com/yourusername/weather-app"
+    },
+    "position": "right"
+  },
+  {
+    "id": "instruction-manual",
+    "date": "2023-07",
+    "dateDisplay": "July 2023",
+    "title": "Instruction Manual",
+    "description": "Designed and produced an Instruction Manual for client JustMate",
+    "longDescription": "Designed and produced a comprehensive Instruction Manual, combining 3D modeling and graphic design to create clear, visually engaging instructions. The manual was tailored to enhance user experience and ensure ease of product assembly and use.",
+    "image": "images/manual.png",
+    "imageAlt": "Instruction Manual for JustMate",
+    "technologies": [
+      { "name": "CAD", "color": "green" },
+      { "name": "Graphic Design", "color": "blue" }
+    ],
+    "links": {
+      "document": "https://www.dropbox.com/scl/fi/7pu2xzwrb8gws60nnjsjm/Instruction-Manual-2.pdf?rlkey=nlwg5bh7zxslzo9ac8zw4gu3h&st=z1fl1as5&dl=0"
+    },
+    "position": "left"
+  },
+  {
+    "id": "tetris-shelf",
+    "date": "2022-08",
+    "dateDisplay": "August 2022 - May 2023",
+    "title": "Modular Tetris-inspired Shelf for Third Graders",
+    "description": "International Baccalaureate Design & Technology Coursework",
+    "longDescription": "Inspired by the playful geometry of Tetris, I designed and built a modular shelving system tailored for third-grade students. The goal was to create a fun, engaging, and functional storage solution that kids could interact with. Each block-shaped module can be rearranged, allowing for customization and creativity while maintaining practicality in a classroom or bedroom setting. The design process involved user research with children and teachers, concept sketching, CAD modeling, prototyping, and material selection focused on safety and durability.",
+    "image": "images/dt.png",
+    "imageAlt": "Modular Tetris-inspired Shelf for Third Graders",
+    "technologies": [
+      { "name": "User-Centered Design", "color": "green" },
+      { "name": "CAD", "color": "blue" },
+      { "name": "Iterative Testing", "color": "brown" }
+    ],
+    "links": {
+      "document": "https://www.dropbox.com/scl/fi/cfu3agrjeuvwlss9mt0nt/FULL.pdf?rlkey=i9f5jaa42waor5lu4vmro4apq&st=yjfajk31&dl=0"
+    },
+    "position": "right"
+  }
+]
+
