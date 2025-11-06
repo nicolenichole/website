@@ -44,6 +44,56 @@ jobs:
           # Create .nojekyll file to disable Jekyll processing
           touch docs/.nojekyll
           echo "Created .nojekyll file to disable Jekyll processing"
+          
+          # Debug: List what was built
+          echo ""
+          echo "=== GitHub Pages Build Output ==="
+          echo "Files in docs/:"
+          find docs -type f | sort
+          echo ""
+          echo "=== Checking for required files ==="
+          echo ""
+          echo "📁 HTML files:"
+          ls -la docs/*.html 2>&1 | wc -l && echo "✅ HTML files present" || echo "❌ HTML files missing"
+          echo ""
+          echo "📁 Images folder:"
+          if [ -d "docs/images" ]; then
+            ls -la docs/images/ | head -8
+            echo "✅ images/ folder present ($(ls docs/images/ | wc -l) files)"
+          else
+            echo "❌ images/ folder missing"
+          fi
+          echo ""
+          echo "📁 Styles:"
+          if [ -f "docs/styles.css" ]; then
+            echo "✅ styles.css present ($(wc -c < docs/styles.css) bytes)"
+          else
+            echo "❌ styles.css missing"
+          fi
+          echo ""
+          echo "📁 Scripts:"
+          if [ -f "docs/script.js" ]; then
+            echo "✅ script.js present ($(wc -c < docs/script.js) bytes)"
+          else
+            echo "❌ script.js missing"
+          fi
+          echo ""
+          echo "📁 Models folder:"
+          if [ -d "docs/models" ]; then
+            find docs/models -type f
+            echo "✅ models/ folder present"
+          else
+            echo "❌ models/ folder missing"
+          fi
+          echo ""
+          echo "📁 Assets folder:"
+          if [ -d "docs/assets" ]; then
+            ls -la docs/assets/ | head -5
+            echo "✅ assets/ folder present"
+          else
+            echo "❌ assets/ folder missing"
+          fi
+          echo ""
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
