@@ -7,7 +7,8 @@
     "build": "vite build",
     "build:aws": "VITE_BASE_PATH= VITE_OUT_DIR=dist vite build",
     "build:github": "VITE_BASE_PATH=/website/ VITE_OUT_DIR=docs vite build",
-    "preview": "vite preview",
+    "preview": "VITE_BASE_PATH= vite preview",
+    "preview:aws": "VITE_BASE_PATH= vite preview --outDir dist",
     "deploy": "./deploy.sh",
     "deploy:aws": "AWS_S3_BUCKET=${AWS_S3_BUCKET} AWS_CLOUDFRONT_ID=${AWS_CLOUDFRONT_ID} AWS_REGION=${AWS_REGION} ./deploy.sh"
   },

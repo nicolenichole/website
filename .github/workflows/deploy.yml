@@ -34,6 +34,20 @@ jobs:
           export VITE_BASE_PATH=""
           export VITE_OUT_DIR="dist"
           npm run build
+          
+      - name: List build output
+        run: |
+          echo "Build output contents:"
+          ls -la dist/ || echo "dist folder not found"
+          echo ""
+          echo "Files in dist:"
+          find dist -type f | sort
+          echo ""
+          echo "Checking for HTML files:"
+          ls -la dist/*.html 2>&1 || echo "No HTML files found"
+          echo ""
+          echo "Checking for styles and scripts:"
+          ls -la dist/*.css dist/*.js 2>&1 || echo "No CSS/JS files found"
 
       - name: Configure AWS credentials (OIDC)
         uses: aws-actions/configure-aws-credentials@v4
@@ -73,19 +87,23 @@ jobs:
             --bucket "${{ secrets.AWS_S3_BUCKET }}" \
             --policy file:///tmp/bucket-policy.json
 
-          # Upload non-HTML files with long cache
+          # Upload all files with appropriate cache settings
+          # First pass: upload non-HTML, non-JSON files with long cache
           aws s3 sync dist "s3://${{ secrets.AWS_S3_BUCKET }}" \
             --delete \
             --cache-control "public, max-age=31536000, immutable" \
             --exclude "*.html" \
             --exclude "*.json"
-
-          # Upload HTML/JSON files with short cache
+          
+          # Second pass: upload HTML and JSON files with short cache (NO --delete to avoid removing other files)
           aws s3 sync dist "s3://${{ secrets.AWS_S3_BUCKET }}" \
-            --delete \
             --cache-control "public, max-age=0, must-revalidate" \
             --include "*.html" \
             --include "*.json"
+          
+          # Verify uploads
+          echo "Verifying uploaded files:"
+          aws s3 ls "s3://${{ secrets.AWS_S3_BUCKET }}/" --recursive | head -30
 
           # Set correct content types for GLB/GLTF files
           aws s3 cp dist "s3://${{ secrets.AWS_S3_BUCKET }}" \
@@ -117,7 +135,8 @@ jobs:
           echo "## Deployment Summary" >> $GITHUB_STEP_SUMMARY
           echo "- ✅ Build completed" >> $GITHUB_STEP_SUMMARY
           echo "- ✅ Files uploaded to S3" >> $GITHUB_STEP_SUMMARY
-          if [ -n "${{ secrets.AWS_CLOUDFRONT_ID }}" ]; then
+          CLOUDFRONT_ID="${{ secrets.AWS_CLOUDFRONT_ID }}"
+          if [ -n "$CLOUDFRONT_ID" ]; then
             echo "- ✅ CloudFront cache invalidated" >> $GITHUB_STEP_SUMMARY
           fi
           echo "" >> $GITHUB_STEP_SUMMARY

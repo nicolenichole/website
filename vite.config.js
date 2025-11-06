@@ -1,5 +1,5 @@
 import { defineConfig } from 'vite'
-import { copyFileSync, existsSync, mkdirSync, cpSync } from 'fs'
+import { copyFileSync, existsSync, mkdirSync, cpSync, readdirSync } from 'fs'
 import { resolve, dirname } from 'path'
 import { fileURLToPath } from 'url'
 
@@ -13,6 +13,8 @@ const copyStaticFiles = () => {
       const outDir = process.env.VITE_OUT_DIR || 'docs'
       const outPath = resolve(__dirname, outDir)
       
+      console.log(`\n[copy-static-files] Starting copy to ${outDir}/`)
+      
       // Copy HTML files
       const htmlFiles = ['projects.html', 'welcome.html', 'credits.html']
       htmlFiles.forEach(file => {
@@ -21,7 +23,9 @@ const copyStaticFiles = () => {
         
         if (existsSync(srcPath)) {
           copyFileSync(srcPath, destPath)
-          console.log(`Copied ${file} to ${outDir}/`)
+          console.log(`✅ Copied ${file} to ${outDir}/`)
+        } else {
+          console.log(`❌ ${file} not found at ${srcPath}`)
         }
       })
       
@@ -29,7 +33,9 @@ const copyStaticFiles = () => {
       const stylesPath = resolve(__dirname, 'styles.css')
       if (existsSync(stylesPath)) {
         copyFileSync(stylesPath, resolve(outPath, 'styles.css'))
-        console.log(`Copied styles.css to ${outDir}/`)
+        console.log(`✅ Copied styles.css to ${outDir}/`)
+      } else {
+        console.log(`❌ styles.css not found at ${stylesPath}`)
       }
       
       // Copy images folder
@@ -38,8 +44,22 @@ const copyStaticFiles = () => {
       if (existsSync(imagesSrc)) {
         mkdirSync(imagesDest, { recursive: true })
         cpSync(imagesSrc, imagesDest, { recursive: true })
-        console.log(`Copied images/ to ${outDir}/images/`)
+        const imageCount = readdirSync(imagesDest).length
+        console.log(`✅ Copied images/ to ${outDir}/images/ (${imageCount} files)`)
+      } else {
+        console.log(`❌ images/ folder not found at ${imagesSrc}`)
       }
+      
+      // Copy scripts.js (HTML files reference it as script.js)
+      const scriptsPath = resolve(__dirname, 'scripts.js')
+      if (existsSync(scriptsPath)) {
+        copyFileSync(scriptsPath, resolve(outPath, 'script.js'))
+        console.log(`✅ Copied scripts.js to ${outDir}/script.js`)
+      } else {
+        console.log(`❌ scripts.js not found at ${scriptsPath}`)
+      }
+      
+      console.log(`[copy-static-files] Finished copying files\n`)
     }
   }
 }
