@@ -120,15 +120,15 @@ jobs:
             --content-type "model/gltf+json" \
             --cache-control "public, max-age=31536000, immutable" || true
 
-      # - name: Invalidate CloudFront cache
-      #   if: ${{ secrets.AWS_CLOUDFRONT_ID != '' }}
-      #   run: |
-      #     INVALIDATION_ID=$(aws cloudfront create-invalidation \
-      #       --distribution-id "${{ secrets.AWS_CLOUDFRONT_ID }}" \
-      #       --paths "/*" \
-      #       --query 'Invalidation.Id' \
-      #       --output text)
-      #     echo "CloudFront invalidation created: $INVALIDATION_ID"
+      - name: Invalidate CloudFront cache
+        if: ${{ secrets.AWS_CLOUDFRONT_ID != '' }}
+        run: |
+          INVALIDATION_ID=$(aws cloudfront create-invalidation \
+            --distribution-id "${{ secrets.AWS_CLOUDFRONT_ID }}" \
+            --paths "/*" \
+            --query 'Invalidation.Id' \
+            --output text)
+          echo "CloudFront invalidation created: $INVALIDATION_ID"
 
       - name: Deployment summary
         run: |
