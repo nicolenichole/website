@@ -1,9 +1,12 @@
 import { defineConfig } from 'vite'
 
 export default defineConfig({
-  base: '/website/',  // Replace with your repository name
+  // Use base path for GitHub Pages, empty for AWS S3/CloudFront
+  base: process.env.VITE_BASE_PATH || '/website/',
   build: {
-    outDir: 'docs'  // or 'dist' if you're deploying that folder, but adjust your GitHub Pages settings accordingly.
-  }
+    outDir: process.env.VITE_OUT_DIR || 'docs',
+    emptyOutDir: true
+  },
+  publicDir: 'public'
 })
 

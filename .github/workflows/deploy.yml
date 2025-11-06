@@ -1,0 +1,125 @@
+name: Deploy to AWS
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  workflow_dispatch:
+
+# OIDC requires these permissions
+permissions:
+  id-token: write   # Required for OIDC authentication
+  contents: read    # Required to checkout code
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build project
+        run: |
+          export VITE_BASE_PATH=""
+          export VITE_OUT_DIR="dist"
+          npm run build
+
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: ${{ secrets.AWS_REGION || 'us-east-1' }}
+
+      - name: Deploy to S3
+        run: |
+          # Check if bucket exists
+          if aws s3 ls "s3://${{ secrets.AWS_S3_BUCKET }}" 2>&1 | grep -q 'NoSuchBucket'; then
+            echo "Bucket does not exist. Creating..."
+            aws s3 mb "s3://${{ secrets.AWS_S3_BUCKET }}" --region ${{ secrets.AWS_REGION || 'us-east-1' }}
+          fi
+
+          # Configure static website hosting
+          aws s3 website "s3://${{ secrets.AWS_S3_BUCKET }}" \
+            --index-document index.html \
+            --error-document index.html
+
+          # Set bucket policy for public read access
+          cat > /tmp/bucket-policy.json <<EOF
+          {
+            "Version": "2012-10-17",
+            "Statement": [
+              {
+                "Sid": "PublicReadGetObject",
+                "Effect": "Allow",
+                "Principal": "*",
+                "Action": "s3:GetObject",
+                "Resource": "arn:aws:s3:::${{ secrets.AWS_S3_BUCKET }}/*"
+              }
+            ]
+          }
+          EOF
+          aws s3api put-bucket-policy \
+            --bucket "${{ secrets.AWS_S3_BUCKET }}" \
+            --policy file:///tmp/bucket-policy.json
+
+          # Upload non-HTML files with long cache
+          aws s3 sync dist "s3://${{ secrets.AWS_S3_BUCKET }}" \
+            --delete \
+            --cache-control "public, max-age=31536000, immutable" \
+            --exclude "*.html" \
+            --exclude "*.json"
+
+          # Upload HTML/JSON files with short cache
+          aws s3 sync dist "s3://${{ secrets.AWS_S3_BUCKET }}" \
+            --delete \
+            --cache-control "public, max-age=0, must-revalidate" \
+            --include "*.html" \
+            --include "*.json"
+
+          # Set correct content types for GLB/GLTF files
+          aws s3 cp dist "s3://${{ secrets.AWS_S3_BUCKET }}" \
+            --recursive \
+            --exclude "*" \
+            --include "*.glb" \
+            --content-type "model/gltf-binary" \
+            --cache-control "public, max-age=31536000, immutable" || true
+
+          aws s3 cp dist "s3://${{ secrets.AWS_S3_BUCKET }}" \
+            --recursive \
+            --exclude "*" \
+            --include "*.gltf" \
+            --content-type "model/gltf+json" \
+            --cache-control "public, max-age=31536000, immutable" || true
+
+      - name: Invalidate CloudFront cache
+        if: ${{ secrets.AWS_CLOUDFRONT_ID != '' }}
+        run: |
+          INVALIDATION_ID=$(aws cloudfront create-invalidation \
+            --distribution-id "${{ secrets.AWS_CLOUDFRONT_ID }}" \
+            --paths "/*" \
+            --query 'Invalidation.Id' \
+            --output text)
+          echo "CloudFront invalidation created: $INVALIDATION_ID"
+
+      - name: Deployment summary
+        run: |
+          echo "## Deployment Summary" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Build completed" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Files uploaded to S3" >> $GITHUB_STEP_SUMMARY
+          if [ -n "${{ secrets.AWS_CLOUDFRONT_ID }}" ]; then
+            echo "- ✅ CloudFront cache invalidated" >> $GITHUB_STEP_SUMMARY
+          fi
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Website URL: http://${{ secrets.AWS_S3_BUCKET }}.s3-website-${{ secrets.AWS_REGION || 'us-east-1' }}.amazonaws.com" >> $GITHUB_STEP_SUMMARY
+

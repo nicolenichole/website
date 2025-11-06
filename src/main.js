@@ -98,13 +98,27 @@ loader.load(
 	
 );
 
-// Sets up a click event to call onMouseClick whenever the user clicks
-window.addEventListener('click', onMouseClick, false);
-
-function onMouseClick(event) {
-	// Convert mouse coordinates to normalized device coordinates (-1 to +1)
-	mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-	mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+// Unified handler for both mouse and touch events (Safari compatibility)
+function handlePointer(event) {
+	// Get coordinates from either mouse or touch event
+	let clientX, clientY;
+	if (event.touches && event.touches.length > 0) {
+		// Touch event - prevent default only if we're actually clicking a sign
+		clientX = event.touches[0].clientX;
+		clientY = event.touches[0].clientY;
+	} else {
+		// Mouse event
+		clientX = event.clientX;
+		clientY = event.clientY;
+	}
+	
+	// Get canvas bounding rect for accurate coordinate calculation
+	const rect = renderer.domElement.getBoundingClientRect();
+	
+	// Convert to normalized device coordinates (-1 to +1)
+	// Use canvas dimensions instead of window dimensions for better accuracy
+	mouse.x = ((clientX - rect.left) / rect.width) * 2 - 1;
+	mouse.y = -((clientY - rect.top) / rect.height) * 2 + 1;
 	
 	// Set raycaster using these coordinates and the camera
 	raycaster.setFromCamera(mouse, camera);
@@ -123,6 +137,11 @@ function onMouseClick(event) {
 		}
 		
 		if (clickedObject) {
+			// Only prevent default if we're actually clicking a sign
+			if (event.touches) {
+				event.preventDefault();
+			}
+			
 			const name = clickedObject.name.trim().toLowerCase();
 			if (name === "welcome") {
 				window.location.href = "welcome.html";
@@ -149,6 +168,45 @@ function onMouseClick(event) {
 		}
 	}
 }
+
+// Attach click event to the canvas element (better Safari compatibility)
+// Using canvas instead of window fixes Safari click issues
+renderer.domElement.addEventListener('click', handlePointer, false);
+
+// Also add touch support for Safari on iOS/iPadOS
+// Use a small delay to distinguish between tap and drag
+let touchStartTime = 0;
+let touchStartPos = { x: 0, y: 0 };
+
+renderer.domElement.addEventListener('touchstart', (event) => {
+	touchStartTime = Date.now();
+	if (event.touches.length > 0) {
+		touchStartPos.x = event.touches[0].clientX;
+		touchStartPos.y = event.touches[0].clientY;
+	}
+}, false);
+
+renderer.domElement.addEventListener('touchend', (event) => {
+	// Only handle as click if it was a quick tap (not a drag)
+	const touchDuration = Date.now() - touchStartTime;
+	if (touchDuration < 300 && event.changedTouches.length > 0) {
+		const touch = event.changedTouches[0];
+		// Check if it was a tap (not a drag) by comparing start and end positions
+		const dragDistance = Math.abs(touch.clientX - touchStartPos.x) + Math.abs(touch.clientY - touchStartPos.y);
+		if (dragDistance < 10) {
+			// Create a synthetic event for the handler
+			const syntheticEvent = {
+				touches: event.changedTouches,
+				clientX: touch.clientX,
+				clientY: touch.clientY
+			};
+			handlePointer(syntheticEvent);
+		}
+	}
+}, false);
+
+// Ensure canvas has proper pointer events
+renderer.domElement.style.touchAction = 'pan-x pan-y';
 
 function animate() {
     requestAnimationFrame(animate);
