@@ -1,4 +1,4 @@
-name: Deploy to AWS
+name: Deploy to GitHub Pages and AWS
 
 on:
   push:
@@ -10,11 +10,17 @@ on:
 # OIDC requires these permissions
 permissions:
   id-token: write   # Required for OIDC authentication
-  contents: read    # Required to checkout code
+  contents: write   # Required for GitHub Pages deployment
+  pages: write      # Required for GitHub Pages deployment
 
 jobs:
-  deploy:
+  # Deploy to GitHub Pages
+  deploy-github-pages:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
     
     steps:
       - name: Checkout code
@@ -29,7 +35,47 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build project
+      - name: Build for GitHub Pages
+        run: |
+          export VITE_BASE_PATH="/website/"
+          export VITE_OUT_DIR="docs"
+          npm run build
+          
+          # Create .nojekyll file to disable Jekyll processing
+          touch docs/.nojekyll
+          echo "Created .nojekyll file to disable Jekyll processing"
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './docs'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+  # Deploy to AWS S3
+  deploy-aws:
+    runs-on: ubuntu-latest
+    needs: deploy-github-pages
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build for AWS
         run: |
           export VITE_BASE_PATH=""
           export VITE_OUT_DIR="dist"
@@ -71,6 +117,14 @@ jobs:
           aws s3 website "s3://${{ secrets.AWS_S3_BUCKET }}" \
             --index-document index.html \
             --error-document index.html
+
+          # Disable Block Public Access settings (required for public bucket policy)
+          echo "Disabling Block Public Access settings..."
+          aws s3api put-public-access-block \
+            --bucket "${{ secrets.AWS_S3_BUCKET }}" \
+            --public-access-block-configuration \
+            "BlockPublicAcls=false,IgnorePublicAcls=false,BlockPublicPolicy=false,RestrictPublicBuckets=false" || \
+          echo "Warning: Could not disable Block Public Access (may already be disabled or insufficient permissions)"
 
           # Set bucket policy for public read access
           cat > /tmp/bucket-policy.json <<EOF
@@ -140,12 +194,21 @@ jobs:
       - name: Deployment summary
         run: |
           echo "## Deployment Summary" >> $GITHUB_STEP_SUMMARY
-          echo "- ✅ Build completed" >> $GITHUB_STEP_SUMMARY
-          echo "- ✅ Files uploaded to S3" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ GitHub Pages deployment completed" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ AWS S3 deployment completed" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 🌐 Website URLs:" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**GitHub Pages:**" >> $GITHUB_STEP_SUMMARY
+          echo "https://${{ github.repository_owner }}.github.io/website/" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**AWS S3:**" >> $GITHUB_STEP_SUMMARY
+          echo "http://${{ secrets.AWS_S3_BUCKET }}.s3-website-${{ secrets.AWS_REGION || 'us-east-1' }}.amazonaws.com" >> $GITHUB_STEP_SUMMARY
           CLOUDFRONT_ID="${{ secrets.AWS_CLOUDFRONT_ID }}"
           if [ -n "$CLOUDFRONT_ID" ]; then
             echo "- ✅ CloudFront cache invalidated" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "**CloudFront (HTTPS):**" >> $GITHUB_STEP_SUMMARY
+            echo "https://$(aws cloudfront get-distribution --id "$CLOUDFRONT_ID" --query 'Distribution.DomainName' --output text)" >> $GITHUB_STEP_SUMMARY
           fi
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "Website URL: http://${{ secrets.AWS_S3_BUCKET }}.s3-website-${{ secrets.AWS_REGION || 'us-east-1' }}.amazonaws.com" >> $GITHUB_STEP_SUMMARY
 
