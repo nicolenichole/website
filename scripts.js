@@ -1,7 +1,11 @@
 document.addEventListener("DOMContentLoaded", () => {
     // Load and render projects if on projects page
-    if (document.querySelector('.timeline-container')) {
+    const timelineContainer = document.querySelector('.timeline-container');
+    if (timelineContainer) {
+        console.log('Timeline container found, loading projects...');
         loadProjects();
+    } else {
+        console.log('No timeline container found, skipping project loading');
     }
 
     // Accordion functionality
@@ -65,9 +69,20 @@ document.addEventListener("DOMContentLoaded", () => {
 // Load projects from JSON and render them
 async function loadProjects() {
     try {
-        const response = await fetch('projects.json');
+        // Get the directory of the current page
+        const currentPath = window.location.pathname;
+        const basePath = currentPath.substring(0, currentPath.lastIndexOf('/')) || '';
+        const jsonPath = basePath + '/projects.json';
+        
+        console.log('Loading projects...', {
+            currentPath,
+            basePath,
+            jsonPath
+        });
+        
+        const response = await fetch(jsonPath);
         if (!response.ok) {
-            throw new Error('Failed to load projects');
+            throw new Error(`Failed to load projects: ${response.status} ${response.statusText}`);
         }
         const projects = await response.json();
         
@@ -90,10 +105,23 @@ async function loadProjects() {
         }, 100);
     } catch (error) {
         console.error('Error loading projects:', error);
+        console.error('Error details:', {
+            message: error.message,
+            stack: error.stack,
+            url: window.location.href
+        });
         // Fallback: show error message
         const timelineContainer = document.querySelector('.timeline-container');
         if (timelineContainer) {
-            timelineContainer.innerHTML = '<p class="error-message">Failed to load projects. Please refresh the page.</p>';
+            const errorMsg = document.createElement('div');
+            errorMsg.className = 'error-message';
+            errorMsg.style.cssText = 'padding: 2rem; text-align: center; color: #ff6b6b;';
+            errorMsg.innerHTML = `
+                <p><strong>Failed to load projects</strong></p>
+                <p>Error: ${error.message}</p>
+                <p>Please check the browser console for details.</p>
+            `;
+            timelineContainer.appendChild(errorMsg);
         }
     }
 }
@@ -159,11 +187,9 @@ function createProjectElement(project, index) {
                     ${project.links.demo ? `
                     <a href="${project.links.demo}" target="_blank" rel="noopener noreferrer" class="button primary small">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                            <polyline points="15 3 21 3 21 9"></polyline>
-                            <line x1="10" y1="14" x2="21" y2="3"></line>
+                            <polygon points="5 3 19 12 5 21 5 3"></polygon>
                         </svg>
-                        <span>Live Demo</span>
+                        <span>Watch Demo</span>
                     </a>
                     ` : ''}
                 </footer>

@@ -73,7 +73,8 @@
       { "name": "TailwindCSS & ShadCN", "color": "pink" }
     ],
     "links": {
-      "code": "https://github.com/nynniaw12/ieee-planner"
+      "code": "https://github.com/nynniaw12/ieee-planner",
+      "demo": "videos/ieee-planner-demo.mp4"
     },
     "position": "left"
   },
