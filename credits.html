@@ -17,14 +17,12 @@
   <div class="pink-flower" aria-hidden="true"></div>
   
   <main class="relative z-10">
-    <div class="container narrow">
-      <nav aria-label="Breadcrumb">
-        <a href="index.html" class="back-link">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <polyline points="15 18 9 12 15 6"></polyline>
-          </svg>
-          <span>Back to Home</span>
-        </a>
+    <div class="container">
+      <nav class="top-nav" aria-label="Main navigation">
+        <a href="index.html" class="nav-tab">Home</a>
+        <a href="welcome.html" class="nav-tab">How to Navigate</a>
+        <a href="projects.html" class="nav-tab">Projects</a>
+        <a href="credits.html" class="nav-tab">Credits</a>
       </nav>
 
       <header class="header">
@@ -122,5 +120,19 @@
   </main>
 
   <script src="script.js"></script>
+  <script>
+    // Highlight active tab based on current page
+    (function() {
+      const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+      const tabs = document.querySelectorAll('.nav-tab');
+      
+      tabs.forEach(tab => {
+        const tabHref = tab.getAttribute('href');
+        if (tabHref === currentPage) {
+          tab.classList.add('active');
+        }
+      });
+    })();
+  </script>
 </body>
 </html>
