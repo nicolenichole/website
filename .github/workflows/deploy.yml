@@ -46,9 +46,9 @@ jobs:
           
           # Verify .nojekyll file exists (should be created by Vite plugin)
           if [ -f "docs/.nojekyll" ]; then
-            echo "✅ .nojekyll file exists"
+            echo ".nojekyll file exists"
           else
-            echo "⚠️  .nojekyll file missing, creating it..."
+            echo "WARNING: .nojekyll file missing, creating it..."
             touch docs/.nojekyll
           fi
           
@@ -60,52 +60,52 @@ jobs:
           echo ""
           echo "=== Checking for required files ==="
           echo ""
-          echo "📁 HTML files:"
-          ls -la docs/*.html 2>&1 | wc -l && echo "✅ HTML files present" || echo "❌ HTML files missing"
+          echo "HTML files:"
+          ls -la docs/*.html 2>&1 | wc -l && echo "HTML files present" || echo "HTML files missing"
           echo ""
-          echo "📁 Images folder:"
+          echo "Images folder:"
           if [ -d "docs/images" ]; then
             ls -la docs/images/ | head -8
-            echo "✅ images/ folder present ($(ls docs/images/ | wc -l) files)"
+            echo "images/ folder present ($(ls docs/images/ | wc -l) files)"
           else
-            echo "❌ images/ folder missing"
+            echo "images/ folder missing"
           fi
           echo ""
-          echo "📁 Styles:"
+          echo "Styles:"
           if [ -f "docs/styles.css" ]; then
-            echo "✅ styles.css present ($(wc -c < docs/styles.css) bytes)"
+            echo "styles.css present ($(wc -c < docs/styles.css) bytes)"
           else
-            echo "❌ styles.css missing"
+            echo "styles.css missing"
           fi
           echo ""
-          echo "📁 Scripts:"
+          echo "Scripts:"
           if [ -f "docs/script.js" ]; then
-            echo "✅ script.js present ($(wc -c < docs/script.js) bytes)"
+            echo "script.js present ($(wc -c < docs/script.js) bytes)"
           else
-            echo "❌ script.js missing"
+            echo "script.js missing"
           fi
           echo ""
-          echo "📁 Models folder:"
+          echo "Models folder:"
           if [ -d "docs/models" ]; then
             find docs/models -type f
-            echo "✅ models/ folder present"
+            echo "models/ folder present"
           else
-            echo "❌ models/ folder missing"
+            echo "models/ folder missing"
           fi
           echo ""
-          echo "📁 Assets folder:"
+          echo "Assets folder:"
           if [ -d "docs/assets" ]; then
             ls -la docs/assets/ | head -5
-            echo "✅ assets/ folder present"
+            echo "assets/ folder present"
           else
-            echo "❌ assets/ folder missing"
+            echo "assets/ folder missing"
           fi
           echo ""
-          echo "📁 .nojekyll file:"
+          echo ".nojekyll file:"
           if [ -f "docs/.nojekyll" ]; then
-            echo "✅ .nojekyll file present (Jekyll disabled)"
+            echo ".nojekyll file present (Jekyll disabled)"
           else
-            echo "❌ .nojekyll file missing"
+            echo ".nojekyll file missing"
           fi
           echo ""
 
@@ -258,10 +258,10 @@ jobs:
       - name: Deployment summary
         run: |
           echo "## Deployment Summary" >> $GITHUB_STEP_SUMMARY
-          echo "- ✅ GitHub Pages deployment completed" >> $GITHUB_STEP_SUMMARY
-          echo "- ✅ AWS S3 deployment completed" >> $GITHUB_STEP_SUMMARY
+          echo "- GitHub Pages deployment completed" >> $GITHUB_STEP_SUMMARY
+          echo "- AWS S3 deployment completed" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "### 🌐 Website URLs:" >> $GITHUB_STEP_SUMMARY
+          echo "### Website URLs:" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "**GitHub Pages:**" >> $GITHUB_STEP_SUMMARY
           echo "https://${{ github.repository_owner }}.github.io/website/" >> $GITHUB_STEP_SUMMARY
@@ -270,7 +270,7 @@ jobs:
           echo "http://${{ secrets.AWS_S3_BUCKET }}.s3-website-${{ secrets.AWS_REGION || 'us-east-1' }}.amazonaws.com" >> $GITHUB_STEP_SUMMARY
           CLOUDFRONT_ID="${{ secrets.AWS_CLOUDFRONT_ID }}"
           if [ -n "$CLOUDFRONT_ID" ]; then
-            echo "- ✅ CloudFront cache invalidated" >> $GITHUB_STEP_SUMMARY
+            echo "- CloudFront cache invalidated" >> $GITHUB_STEP_SUMMARY
             echo "" >> $GITHUB_STEP_SUMMARY
             echo "**CloudFront (HTTPS):**" >> $GITHUB_STEP_SUMMARY
             echo "https://$(aws cloudfront get-distribution --id "$CLOUDFRONT_ID" --query 'Distribution.DomainName' --output text)" >> $GITHUB_STEP_SUMMARY

@@ -23,9 +23,9 @@ const copyStaticFiles = () => {
         
         if (existsSync(srcPath)) {
           copyFileSync(srcPath, destPath)
-          console.log(`✅ Copied ${file} to ${outDir}/`)
+          console.log(`[OK] Copied ${file} to ${outDir}/`)
         } else {
-          console.log(`❌ ${file} not found at ${srcPath}`)
+          console.log(`[FAIL] ${file} not found at ${srcPath}`)
         }
       })
       
@@ -33,9 +33,9 @@ const copyStaticFiles = () => {
       const stylesPath = resolve(__dirname, 'styles.css')
       if (existsSync(stylesPath)) {
         copyFileSync(stylesPath, resolve(outPath, 'styles.css'))
-        console.log(`✅ Copied styles.css to ${outDir}/`)
+        console.log(`[OK] Copied styles.css to ${outDir}/`)
       } else {
-        console.log(`❌ styles.css not found at ${stylesPath}`)
+        console.log(`[FAIL] styles.css not found at ${stylesPath}`)
       }
       
       // Copy images folder
@@ -45,24 +45,24 @@ const copyStaticFiles = () => {
         mkdirSync(imagesDest, { recursive: true })
         cpSync(imagesSrc, imagesDest, { recursive: true })
         const imageCount = readdirSync(imagesDest).length
-        console.log(`✅ Copied images/ to ${outDir}/images/ (${imageCount} files)`)
+        console.log(`[OK] Copied images/ to ${outDir}/images/ (${imageCount} files)`)
       } else {
-        console.log(`❌ images/ folder not found at ${imagesSrc}`)
+        console.log(`[FAIL] images/ folder not found at ${imagesSrc}`)
       }
       
       // Copy scripts.js (HTML files reference it as script.js)
       const scriptsPath = resolve(__dirname, 'scripts.js')
       if (existsSync(scriptsPath)) {
         copyFileSync(scriptsPath, resolve(outPath, 'script.js'))
-        console.log(`✅ Copied scripts.js to ${outDir}/script.js`)
+        console.log(`[OK] Copied scripts.js to ${outDir}/script.js`)
       } else {
-        console.log(`❌ scripts.js not found at ${scriptsPath}`)
+        console.log(`[FAIL] scripts.js not found at ${scriptsPath}`)
       }
       
       // Create .nojekyll file to disable Jekyll processing on GitHub Pages
       const nojekyllPath = resolve(outPath, '.nojekyll')
       writeFileSync(nojekyllPath, '')
-      console.log(`✅ Created .nojekyll file in ${outDir}/`)
+      console.log(`[OK] Created .nojekyll file in ${outDir}/`)
       
       console.log(`[copy-static-files] Finished copying files\n`)
     }
