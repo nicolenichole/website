@@ -44,9 +44,13 @@ jobs:
           export VITE_OUT_DIR="docs"
           npm run build
           
-          # Create .nojekyll file to disable Jekyll processing
-          touch docs/.nojekyll
-          echo "Created .nojekyll file to disable Jekyll processing"
+          # Verify .nojekyll file exists (should be created by Vite plugin)
+          if [ -f "docs/.nojekyll" ]; then
+            echo "✅ .nojekyll file exists"
+          else
+            echo "⚠️  .nojekyll file missing, creating it..."
+            touch docs/.nojekyll
+          fi
           
           # Debug: List what was built
           echo ""
@@ -95,6 +99,13 @@ jobs:
             echo "✅ assets/ folder present"
           else
             echo "❌ assets/ folder missing"
+          fi
+          echo ""
+          echo "📁 .nojekyll file:"
+          if [ -f "docs/.nojekyll" ]; then
+            echo "✅ .nojekyll file present (Jekyll disabled)"
+          else
+            echo "❌ .nojekyll file missing"
           fi
           echo ""
 

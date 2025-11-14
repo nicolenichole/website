@@ -1,5 +1,5 @@
 import { defineConfig } from 'vite'
-import { copyFileSync, existsSync, mkdirSync, cpSync, readdirSync } from 'fs'
+import { copyFileSync, existsSync, mkdirSync, cpSync, readdirSync, writeFileSync } from 'fs'
 import { resolve, dirname } from 'path'
 import { fileURLToPath } from 'url'
 
@@ -58,6 +58,11 @@ const copyStaticFiles = () => {
       } else {
         console.log(`❌ scripts.js not found at ${scriptsPath}`)
       }
+      
+      // Create .nojekyll file to disable Jekyll processing on GitHub Pages
+      const nojekyllPath = resolve(outPath, '.nojekyll')
+      writeFileSync(nojekyllPath, '')
+      console.log(`✅ Created .nojekyll file in ${outDir}/`)
       
       console.log(`[copy-static-files] Finished copying files\n`)
     }
