@@ -1,5 +1,25 @@
 [
   {
+    "id": "job-search",
+    "date": "2025-11",
+    "dateDisplay": "November 2025",
+    "title": "Multi-agent Job Search Assistant",
+    "description": "I created a multi-agent job search assistant that uses the OpenAI API to help users find jobs, inspired by a workshop I attended at Grace Hopper Conference 2025 led by Apoorva Jaiswal, Anjana Umapathy and Anagha Rumade. It uses a combination of search engines and job boards to find jobs and apply to them. It also uses a combination of search engines and job boards to find jobs and apply to them.",
+    "image": "images/job_search.png",
+    "imageAlt": "Job Search Assistant",
+    "technologies": [
+      { "name": "Python", "color": "blue" },
+      { "name": "GitHub", "color": "blue" },
+      { "name": "OpenAI API", "color": "blue" }
+    ],
+    "links": {
+      "code": "https://github.com/nicolenichole/multi_agent_job_search",
+      "demo": "videos/job_search-trimmed.mp4",
+      "document": "https://www.dropbox.com/scl/fo/ylbnx7sogfxdf73ju1b8w/AMCDdu7B3R6Pe87xq3G08M4?rlkey=wqu2f5mmi8aaoizsrn7a0biml&st=0vlxaxe1&dl=0"
+    },
+    "position": "left"
+  },
+  {
     "id": "wic-website",
     "date": "2025-08",
     "dateDisplay": "August 2025",
