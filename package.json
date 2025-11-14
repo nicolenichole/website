@@ -9,6 +9,9 @@
     "build:github": "VITE_BASE_PATH=/website/ VITE_OUT_DIR=docs vite build",
     "preview": "VITE_BASE_PATH= vite preview",
     "preview:aws": "VITE_BASE_PATH= vite preview --outDir dist",
+    "serve": "serve docs -l 3000",
+    "serve:github": "serve docs -l 3000",
+    "serve:aws": "serve dist -l 3000",
     "deploy": "./deploy.sh",
     "deploy:aws": "AWS_S3_BUCKET=${AWS_S3_BUCKET} AWS_CLOUDFRONT_ID=${AWS_CLOUDFRONT_ID} AWS_REGION=${AWS_REGION} ./deploy.sh"
   },
@@ -17,6 +20,7 @@
     "three": "^0.175.0"
   },
   "devDependencies": {
-    "vite": "^6.2.3"
+    "vite": "^6.2.3",
+    "serve": "^14.2.1"
   }
 }
