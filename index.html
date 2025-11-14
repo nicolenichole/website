@@ -1,135 +1,149 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<title>Nicole's Website</title>
-		<style>
-			body { 
-                margin: 0; 
-                font-family: 'Minecraft', monospace, Arial, sans-serif;
-                background-color: #333;
-            }
-            
-            /* Video game dialogue box styling */
-            .dialogue-box {
-                position: absolute;
-                bottom: 20px;
-                left: 50%;
-                transform: translateX(-50%);
-                width: 80%;
-                max-width: 600px;
-                background-color: rgba(0, 0, 0, 0.8);
-                border: 4px solid #555;
-                border-radius: 3px;
-                padding: 5px;
-                z-index: 10;
-                color: white;
-                box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-                cursor: pointer; /* Add pointer cursor to indicate clickability */
-            }
-            
-            .dialogue-header {
-                background-color: #5d4037;
-                padding: 5px 10px;
-                margin-bottom: 5px;
-                border-radius: 2px;
-            }
-            
-            .character-name {
-                font-weight: bold;
-                color: #ffeb3b;
-                font-size: 18px;
-            }
-            
-            .dialogue-content {
-                padding: 10px;
-                line-height: 1.5;
-                font-size: 18px;
-                min-height: 80px; /* Ensure consistent height */
-            }
-            
-            /* Text display - removed typing animation for better readability */
-            .dialogue-text {
-                white-space: normal; /* Allow text to wrap */
-                overflow: visible; /* Show all text */
-                line-height: 1.5;
-            }
-            
-            /* Continue indicator */
-            .continue-indicator {
-                text-align: right;
-                margin-top: 10px;
-                color: #ffeb3b;
-                animation: bounce 0.5s infinite alternate;
-            }
-            
-            @keyframes bounce {
-                from { transform: translateY(0px); }
-                to { transform: translateY(-5px); }
-            }
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Welcome to Nicole Lu's interactive portfolio website. Learn how to navigate this 3D Minecraft-inspired space.">
+  <title>Home - Nicole's Portfolio</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="leaf-pattern-top" aria-hidden="true"></div>
+  <div class="leaf-pattern-bottom" aria-hidden="true"></div>
+  <div class="blue-flower" aria-hidden="true"></div>
+  <div class="pink-flower" aria-hidden="true"></div>
+  
+  <main class="relative z-10">
+    <div class="container">
+      <nav class="top-nav" aria-label="Main navigation">
+        <a href="3d-view.html" class="nav-tab">3D View</a>
+        <a href="index.html" class="nav-tab">Home</a>
+        <a href="projects.html" class="nav-tab">Projects</a>
+        <a href="credits.html" class="nav-tab">Credits</a>
+      </nav>
 
-            /* Hide dialogue box when closed */
-            .hidden {
-                display: none;
-            }
-		</style>
-		<script type="module" src="src/main.js"></script>
-	</head>
-	<body>
-        <div id="dialogueBox" class="dialogue-box">
-            <div class="dialogue-header">
-                <span id="characterName" class="character-name">Nicole</span>
-            </div>
-            <div class="dialogue-content">
-                <div id="dialogueText" class="dialogue-text">Minecraft is a trademark of Mojang Studios. This fan-made portfolio is not affiliated with or endorsed by Mojang.</div>
-                <div id="continueIndicator" class="continue-indicator">▼ Click to continue</div>
-            </div>
+      <header class="header">
+        <div class="icon-container">
+          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-primary">
+            <circle cx="12" cy="12" r="10"></circle>
+            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+            <path d="M12 17h.01"></path>
+          </svg>
         </div>
+        <h1>Welcome to my interactive personal portfolio!</h1>
+        <p class="subtitle">This website is a virtual hub for my personal projects—an interactive space where you can explore what I've been working on. Whether you're here to explore some code, design, or just curious about what I'm building, you're in the right place.</p>
+      </header>
 
-        <script>
-            // Dialogue system
-            const dialogues = [
-                { name: "Nicole", text: "Minecraft is a trademark of Mojang Studios. This fan-made portfolio is not affiliated with or endorsed by Mojang." },
-                { name: "Nicole", text: "Welcome to my Minecraft Base! Click on the white sign for more information." },
-                { name: "Nicole", text: "I've built this place with lots of cool features. Feel free to explore!" },
-                //{ name: "Nicole", text: "Don't forget to check out the upstairs area too. There are some hidden treasures." }
-            ];
+      <!-- Bio section -->
+      <section class="bio-card" aria-labelledby="bio-heading">
+        <div class="bio-content">
+          <div class="profile-image">
+            <img src="images/nicole.png" alt="Nicole Lu profile picture" loading="lazy">
+          </div>
+          <div class="bio-details">
+            <h2 id="bio-heading">Nicole Lu</h2>
+            <p class="bio-text">
+              I'm a Computer Science junior at Northwestern University who loves turning late night ideas into (somewhat) practical working code. Lately, I've been experimenting using vibe coding as a tool for prototyping with AI and challenging myself to build new technologies. One of my favorite ways to blow off steam is hopping onto a rock climbing boulder problem — a “hobby” I’ve somehow managed to weave into so many other parts of my life. I’m also part of Philharmonia, the largest orchestra at Northwestern, so you can definitely catch me hauling my flute around campus.
+            </p>
+            <!-- <div class="badge-container" role="list">
+              <span class="badge green" role="listitem">Python</span>
+              <span class="badge blue" role="listitem">Node.js</span>
+              <span class="badge brown" role="listitem">Go</span>
+              <span class="badge blue" role="listitem">C</span>
+              <span class="badge pink" role="listitem">C++</span>
+              <span class="badge green" role="listitem">Next.js</span>
+            </div> -->
+            <nav class="social-links" aria-label="Social links">
+              <a href="https://github.com/nicolenichole" target="_blank" rel="noopener noreferrer" class="social-button" aria-label="GitHub profile">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path>
+                  <path d="M9 18c-4.51 2-5-2-7-2"></path>
+                </svg>
+                <span>GitHub</span>
+              </a>
+              <a href="https://linkedin.com/in/nicole-lu-056306325" target="_blank" rel="noopener noreferrer" class="social-button" aria-label="LinkedIn profile">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                  <polyline points="15 3 21 3 21 9"></polyline>
+                  <line x1="10" y1="14" x2="21" y2="3"></line>
+                </svg>
+                <span>LinkedIn</span>
+              </a>
+              <a href="resume.pdf" target="_blank" rel="noopener noreferrer" class="social-button" aria-label="Resume">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                  <polyline points="15 3 21 3 21 9"></polyline>
+                  <line x1="10" y1="14" x2="21" y2="3"></line>
+                </svg>
+                <span>Resume</span>
+              </a>
+            </nav>
+          </div>
+        </div>
+      </section>
+
+      <section class="content-section">
+        <article class="card">
+          <header class="card-header">
+            <h2>How to Navigate</h2>
+            <p class="card-description">Here's a guide to help you explore all of the features available on this site if you choose to navigate through with the 3D view.</p>
+          </header>
+          <div class="card-content">
+            <div class="info-list">
+              <div class="info-item">
+                <strong class="info-label">Signs</strong>
+                <p>Click on the signs to visit different parts of the website</p>
+              </div>
+              <div class="info-item">
+                <p class="info-highlight">ENTER sign</p>
+                <p>Takes you inside the base</p>
+              </div>
+              <div class="info-item">
+                <p class="info-highlight">EXIT sign</p>
+                <p>Brings you back to spawn point</p>
+              </div>
+              <div class="info-item">
+                <p class="info-highlight">Projects / Credits / How to Navigate signs</p>
+                <p>Open up specific pages related to my work and the website</p>
+              </div>
+            </div>
             
-            let currentDialogueIndex = 0;
-            const dialogueBox = document.getElementById('dialogueBox');
-            const characterName = document.getElementById('characterName');
-            const dialogueText = document.getElementById('dialogueText');
-            const continueIndicator = document.getElementById('continueIndicator');
+            <div class="info-list" style="margin-top: 2rem;">
+              <div class="info-item">
+                <strong class="info-label">Click and Drag</strong>
+                <p>Look around the 3D space from different angles</p>
+              </div>
+            </div>
             
-            // Add click event listener to the dialogue box
-            dialogueBox.addEventListener('click', advanceDialogue);
-            
-            function advanceDialogue() {
-                currentDialogueIndex++;
-                
-                // If there are more dialogues to show
-                if (currentDialogueIndex < dialogues.length) {
-                    // Update the dialogue content
-                    characterName.textContent = dialogues[currentDialogueIndex].name;
-                    dialogueText.textContent = dialogues[currentDialogueIndex].text;
-                } else {
-                    // We've reached the end of dialogues
-                    // Hide the continue indicator
-                    continueIndicator.style.display = 'none';
-                    
-                    // Reset to the first dialogue (Mojang trademark message)
-                    dialogueText.textContent = dialogues[0].text;
-                    characterName.textContent = dialogues[0].name;
-                    
-                    // Remove the click event listener since we're done with dialogues
-                    dialogueBox.removeEventListener('click', advanceDialogue);
-                    
-                    // Change cursor back to default since it's no longer clickable
-                    dialogueBox.style.cursor = 'default';
-                }
-            }
-        </script>
-        
-        <script type="module" src="src/main.js"></script>
-	</body>
+            <div class="info-list" style="margin-top: 2rem;">
+              <div class="info-item">
+                <strong class="info-label">Scroll Wheel</strong>
+                <p>Zoom in or out for a closer look or wider view</p>
+              </div>
+            </div>
+          </div>
+        </article>
+      </section>
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+  <script>
+    // Highlight active tab based on current page
+    (function() {
+      const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+      const tabs = document.querySelectorAll('.nav-tab');
+      
+      tabs.forEach(tab => {
+        const tabHref = tab.getAttribute('href');
+        if (tabHref === currentPage) {
+          tab.classList.add('active');
+        }
+      });
+    })();
+  </script>
+</body>
 </html>

@@ -92,8 +92,8 @@ loader.load(
 	},
 	// called when loading has errors
 	function ( error ) {
-		console.log( 'An error happened' );
-
+		console.error( 'Error loading model:', error );
+		console.error( 'Model path attempted:', 'models/gltf/cottage2.glb' );
 	}
 	
 );
@@ -144,7 +144,7 @@ function handlePointer(event) {
 			
 			const name = clickedObject.name.trim().toLowerCase();
 			if (name === "welcome") {
-				window.location.href = "welcome.html";
+				window.location.href = "index.html";
 			} else if (name === "projects") {
 				window.location.href = "projects.html";
 			} else if (name === "credits") {

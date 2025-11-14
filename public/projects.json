@@ -88,24 +88,6 @@
     "position": "left"
   },
   {
-    "id": "tamagotchi",
-    "date": "2025-04",
-    "dateDisplay": "April 2025",
-    "title": "To do list Tamagotchi pet",
-    "description": "[In progress] This is a pet that can only be fed by doing a daily task. This little tool is designed to keep you in check! I am still working on it but I have uploaded the draft. You can set a time in settings for the deadline. If you miss a day your pet dies.",
-    "image": "images/tama.png",
-    "imageAlt": "To do list tamagotchi pet application",
-    "technologies": [
-      { "name": "JavaScript", "color": "blue" },
-      { "name": "HTML", "color": "blue" },
-      { "name": "CSS", "color": "blue" }
-    ],
-    "links": {
-      "code": "https://github.com/nicolenichole/todolist_pet"
-    },
-    "position": "right"
-  },
-  {
     "id": "font-changer",
     "date": "2025-04",
     "dateDisplay": "April 2025",
@@ -127,7 +109,7 @@
     "id": "robotics",
     "date": "2024-07",
     "dateDisplay": "July 2024 - August 2024",
-    "title": "CATs Robotics Lab",
+    "title": "CATs Robotics Lab -- Dr Xiao Peng Li of University of Wisconsin-Madison",
     "description": "Integrated and programmed the AgileX Ranger, equipping it with a computer and color + depth camera for operational performance analysis to enable path-following functionality and obstacle detection.",
     "imageAlt": "CATs Robotics Lab AgileX Ranger robot",
     "technologies": [
@@ -137,7 +119,7 @@
       { "name": "ROS 2, Robot SDK", "color": "blue" }
     ],
     "links": {
-      "document": null
+      "document": "https://www.dropbox.com/scl/fi/0uf07gyen31a482f37g07/Lab-Memo_-Ranger-UGV-Obstacle-Detection-Pipeline.pdf?rlkey=wlb8a8nmol7nn4cqw9e9g0e5e&st=f1fz9klp&dl=0"
     },
     "position": "right"
   },
@@ -173,6 +155,24 @@
     ],
     "links": {
       "document": "https://www.dropbox.com/scl/fi/cfu3agrjeuvwlss9mt0nt/FULL.pdf?rlkey=i9f5jaa42waor5lu4vmro4apq&st=yjfajk31&dl=0"
+    },
+    "position": "right"
+  },
+  {
+    "id": "tamagotchi",
+    "date": "2025-04",
+    "dateDisplay": "April 2025",
+    "title": "To do list Tamagotchi pet",
+    "description": "[In progress] This is a pet that can only be fed by doing a daily task. This little tool is designed to keep you in check! I am still working on it but I have uploaded the draft. You can set a time in settings for the deadline. If you miss a day your pet dies.",
+    "image": "images/tama.png",
+    "imageAlt": "To do list tamagotchi pet application",
+    "technologies": [
+      { "name": "JavaScript", "color": "blue" },
+      { "name": "HTML", "color": "blue" },
+      { "name": "CSS", "color": "blue" }
+    ],
+    "links": {
+      "code": "https://github.com/nicolenichole/todolist_pet"
     },
     "position": "right"
   }

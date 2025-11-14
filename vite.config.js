@@ -15,8 +15,8 @@ const copyStaticFiles = () => {
       
       console.log(`\n[copy-static-files] Starting copy to ${outDir}/`)
       
-      // Copy HTML files
-      const htmlFiles = ['projects.html', 'welcome.html', 'credits.html']
+      // Copy HTML files (index.html and 3d-view.html are processed by Vite, so only copy others)
+      const htmlFiles = ['projects.html', 'credits.html']
       htmlFiles.forEach(file => {
         const srcPath = resolve(__dirname, file)
         const destPath = resolve(outPath, file)
@@ -74,7 +74,13 @@ export default defineConfig({
   base: process.env.VITE_BASE_PATH || '/website/',
   build: {
     outDir: process.env.VITE_OUT_DIR || 'docs',
-    emptyOutDir: true
+    emptyOutDir: true,
+    rollupOptions: {
+      input: {
+        main: resolve(__dirname, 'index.html'),
+        '3d-view': resolve(__dirname, '3d-view.html')
+      }
+    }
   },
   publicDir: 'public',
   plugins: [copyStaticFiles()]
