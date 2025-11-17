@@ -1,5 +1,23 @@
 [
   {
+    "id": "job-search-erp",
+    "date": "2025-11",
+    "dateDisplay": "November 2025",
+    "title": "ERP for Job Search Process",
+    "description": "I created a multi-agent job search assistant that uses the OpenAI API to help users find jobs, inspired by a workshop I attended at Grace Hopper Conference 2025 led by Apoorva Jaiswal, Anjana Umapathy and Anagha Rumade. It uses a combination of search engines and job boards to find jobs and apply to them. It also uses a combination of search engines and job boards to find jobs and apply to them.",
+    "image": "images/job-hunt-erp.png",
+    "imageAlt": "Job Search Assistant",
+    "technologies": [
+      { "name": "Python", "color": "blue" },
+      { "name": "TypeScript", "color": "blue" }
+    ],
+    "links": {
+      "code": "https://github.com/nicolenichole/job-hunt-erp",
+      "demo": "videos/job-hunt-erp-trimmed.mp4"
+    },
+    "position": "left"
+  },
+  {
     "id": "job-search",
     "date": "2025-11",
     "dateDisplay": "November 2025",
@@ -9,7 +27,6 @@
     "imageAlt": "Job Search Assistant",
     "technologies": [
       { "name": "Python", "color": "blue" },
-      { "name": "GitHub", "color": "blue" },
       { "name": "OpenAI API", "color": "blue" }
     ],
     "links": {
